@@ -1,0 +1,40 @@
+* Some sort of Backend For free shit
++ [ ] Geolocation
++ [ ] Database
++ [ ] API
+** Links
+- https://stevenwhite.com/building-a-rest-service-with-golang-3/
+- http://thenewstack.io/make-a-restful-json-api-go/
+- http://blog.narenarya.in/build-rest-api-go-mysql.html
+- https://io2014codelabs.appspot.com/static/codelabs/go-codelab/
+** TODO Goelocation
+geo-golang
+https://github.com/codingsince1985/geo-golang
+- Use OpenStreetMap
+** TODO Database
+- Use SQLite
+  - Consider Key/store Document DB?
+    - Meh
+*** Stuffs
+- Zip
+- Coordinates
+- Picture
+- Title
+- ID
+- Date
+- Contact
+*** Opprotunities ???~~~
+ - Zip
+ - picture
+ - Title
+ - Date
+** TODO API
+- Get
+- Post
+- Put
+- Delete
+*** Framework
+- Gin?
+Everywhere
+- Echo
+In transition? But simple and effective?
