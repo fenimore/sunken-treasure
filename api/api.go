@@ -4,9 +4,14 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"github.com/polypmer/sunken/database"
 )
+
+type key int
+
+const dbKey key = 0
 
 func Serve() {
 	fmt.Println("Serving API on port 8080")
@@ -30,6 +35,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "Error with database creation %s\n", err)
 	}
+	context.Set(r, dbKey, db)
 	fmt.Fprintln(w, "Index Page:\nDatabase Created if not already.")
 }
 
