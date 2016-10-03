@@ -3,8 +3,10 @@ package database
 
 import (
 	"database/sql"
+	"time"
 
 	"github.com/polypmer/sunken/geo"
+	"github.com/polypmer/sunken/stuff"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -34,7 +36,8 @@ CREATE TABLE IF NOT EXISTS stuffs(
     lat FLOAT NOT NULL,
     lon FLOAT NOT NULL,
     contact TEXT NOT NULL,
-    date DATETIME
+    date DATETIME,
+    expired BOOLEAN NOT NULL DEFAULT FALSE
 );
 `
 	_, err := db.Exec(sql_table)
@@ -51,18 +54,19 @@ func NewStuff(db *sql.DB, title, zip string) error {
 		return err
 	}
 
-	stmt, err := db.Prepare("INSERT INTO stuffs(title, zip, lat, lon," +
-		"date, contact)values(?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO stuffs(title, zip, lat," +
+		"lon, date, contact)values(?,?,?,?,?,?)")
 	if err != nil {
 		return err
 	}
 	// TODO: Generate Date/time
 	res, err := stmt.Exec(title, zip, coord[0],
-		coord[1], "1989-01-01", "555-555-5555")
+		coord[1], time.Now(), "555-555-5555")
 	if err != nil {
 		return err
 	}
 	// TODO: Look up this method
+	// TODO: change to random hash
 	_, err = res.LastInsertId()
 	// Returns id
 	if err != nil {
@@ -74,8 +78,8 @@ func NewStuff(db *sql.DB, title, zip string) error {
 // TODO:
 // UPDATE
 // READ
-func ReadStuffs(db *sql.DB) ([]Stuff, error) {
-	stuffs := make([]Stuff, 0)
+func ReadStuffs(db *sql.DB) ([]stuff.Stuff, error) {
+	stuffs := make([]stuff.Stuff, 0)
 
 	stmt := "SELECT * FROM stuffs"
 	rows, err := db.Query(stmt)
@@ -85,7 +89,7 @@ func ReadStuffs(db *sql.DB) ([]Stuff, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		s := Stuff{}
+		s := stuff.Stuff{}
 		err = rows.Scan(&s.Id, &s.Title,
 			&s.Zip, &s.Lat, &s.Lon,
 			&s.Contact, &s.Date)
