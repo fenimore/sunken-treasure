@@ -1,7 +1,7 @@
 * Some sort of backend for free stuff
 + [1/3] Geolocation
 + [1/10] Database
-+ [-] API
++ [1/10] API
 ** Links
 - https://stevenwhite.com/building-a-rest-service-with-golang-3/
 - http://thenewstack.io/make-a-restful-json-api-go/
