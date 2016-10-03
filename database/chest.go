@@ -9,9 +9,9 @@ import (
 
 /* Database Helpers */
 
-// InitDb Open()s a sqlite3 in path.
-func InitDB(path string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", path)
+// InitDb Open()s a sqlite3 in a path.
+func InitDB() (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", "chest.db")
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS stuffs(
     title TEXT NOT NULL,                
     zip TEXT NOT NULL,
     contact TEXT NOT NULL,
-    date DATE
+    date DATETIME
 );
 `
 	_, err := db.Exec(sql_table)

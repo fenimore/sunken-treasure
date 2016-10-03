@@ -6,24 +6,28 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/polypmer/database"
 )
 
 func Serve() {
 	// A gorilla mux server
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Index)
-	router.HandleFunc("/create", CreateDb)
 	router.HandleFunc("/stuff/{id}", ShowStuff)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Index Page")
-}
-
-func CreateDb(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Database created")
+	db, err := database.InitDB()
+	if err != nil {
+		fmt.Fprintf(w, "Error with database init %s\n", err)
+	}
+	err := database.CreateTable()
+	if err != nil {
+		fmt.Fprintf(w, "Error with database creation %s\n", err)
+	}
+	fmt.Fprintln(w, "Index Page:\nDatabase Created if not already.")
 }
 
 func ShowStuff(w http.ResponseWriter, r *http.Request) {
