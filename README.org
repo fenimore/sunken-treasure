@@ -21,11 +21,13 @@ https://github.com/codingsince1985/geo-golang
 + Zip
   - Int or string?
 + Coordinates
+  - Float
 + Picture 
   - Store binary data in sqlite?
 + Title
 + ID
   - autoincrement
+  - Random Hash
 + Date
   - Time or Datetime or Date?
 + Contact

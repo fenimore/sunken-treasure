@@ -26,9 +26,9 @@ func StuffIndex(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	for _, stuff := range stuffs {
-		fmt.Println(stuff)
+		fmt.Fprintf(w, "Stuff: %s\n  Zip: %s\n", stuff.Title, stuff.Zip)
 	}
-	fmt.Fprintln(w, "Stuff Index")
+	//fmt.Fprintln(w, "Stuff Index")
 }
 
 // NewStuff creates a new stuff
