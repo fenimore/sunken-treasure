@@ -22,6 +22,7 @@ func Serve(connection *sql.DB) {
 	router.HandleFunc("/", Index)
 	router.HandleFunc("/stuff/{id}", ShowStuff)
 	router.HandleFunc("/new", NewStuff)
+	router.HandleFunc("/all", StuffIndex)
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {

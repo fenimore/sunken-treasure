@@ -15,7 +15,7 @@ type Stuff struct {
 	Date    time.Time
 }
 
-func (s *Stuff) String() {
+func (s *Stuff) String() string {
 	return fmt.Sprintf("Stuff %i: %s\nAt %f %f",
 		s.Id, s.Title, s.Lat, s.Lon)
 }
