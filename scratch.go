@@ -22,6 +22,9 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error with database init %s\n", err)
 	}
-
+	err = database.CreateTable(db)
+	if err != nil {
+		fmt.Printf("Error with database creation %s\n", err)
+	}
 	api.Serve(db)
 }

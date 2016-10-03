@@ -30,11 +30,7 @@ func Serve(connection *sql.DB) {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	err := database.CreateTable(db)
-	if err != nil {
-		fmt.Fprintf(w, "Error with database creation %s\n", err)
-	}
-	fmt.Fprintln(w, "Index Page:\nDatabase Created if not already.")
+	fmt.Fprintln(w, "Index Page")
 }
 
 func ShowStuff(w http.ResponseWriter, r *http.Request) {
