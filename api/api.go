@@ -2,11 +2,10 @@ package api
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/polypmer/database"
+	"github.com/polypmer/sunken/database"
 )
 
 func Serve() {
@@ -15,10 +14,14 @@ func Serve() {
 	router.HandleFunc("/", Index)
 	router.HandleFunc("/stuff/{id}", ShowStuff)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	err := http.ListenAndServe(":8080", router)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("index")
 	db, err := database.InitDB()
 	if err != nil {
 		fmt.Fprintf(w, "Error with database init %s\n", err)

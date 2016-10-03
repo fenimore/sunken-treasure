@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS stuffs(
 	if err != nil {
 		return err
 	}
+	return nil
 }
 
 // NewStuff Creates a new stuff object
@@ -56,6 +57,7 @@ func NewStuff(db *sql.DB, title, zip string) error {
 	if err != nil {
 		return err
 	}
+	return nil
 }
 
 // TODO:

@@ -3,6 +3,7 @@
 + [1/10] Database
 + [1/10] API
 ** Links
+- http://thenewstack.io/make-a-restful-json-api-go/
 - https://stevenwhite.com/building-a-rest-service-with-golang-3/
 - http://thenewstack.io/make-a-restful-json-api-go/
 - http://blog.narenarya.in/build-rest-api-go-mysql.html
