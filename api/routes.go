@@ -16,7 +16,7 @@ type Routes []Route
 // the neatly defined routes defined etc.
 func NewRouter() *mux.Router {
 	// Why strict slash?
-	route := mux.NewRouter().StrictSlash(true)
+	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		router.
 			Methods(route.Method).
