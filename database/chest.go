@@ -30,7 +30,7 @@ func CreateTable(db *sql.DB) error {
 CREATE TABLE IF NOT EXISTS stuffs(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,                
-    zip TEXT NOT NULL,
+    zip TEXT,
     lat FLOAT NOT NULL,
     lon FLOAT NOT NULL,
     contact TEXT NOT NULL,
@@ -74,4 +74,28 @@ func NewStuff(db *sql.DB, title, zip string) error {
 // TODO:
 // UPDATE
 // READ
+func ReadStuffs(db *sql.DB) ([]Stuff, error) {
+	stuffs := make([]Stuff, 0)
+
+	stmt := "SELECT * FROM stuffs"
+	rows, err := db.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		s := Stuff{}
+		err = rows.Scan(&s.Id, &s.Title,
+			&s.Zip, &s.Lat, &s.Lon,
+			&s.Contact, &s.Date)
+		if err != nil {
+			return nil, err
+		}
+		stuffs = append(stuffs, s)
+	}
+	rows.Close() // Redundant but good
+	return stuffs, nil
+}
+
 // DELETE
