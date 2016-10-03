@@ -9,6 +9,7 @@ import (
 )
 
 func Serve() {
+	fmt.Println("Serving API on port 8080")
 	// A gorilla mux server
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Index)
@@ -21,12 +22,11 @@ func Serve() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("index")
 	db, err := database.InitDB()
 	if err != nil {
 		fmt.Fprintf(w, "Error with database init %s\n", err)
 	}
-	err := database.CreateTable()
+	err = database.CreateTable(db)
 	if err != nil {
 		fmt.Fprintf(w, "Error with database creation %s\n", err)
 	}

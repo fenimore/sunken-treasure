@@ -11,7 +11,7 @@ import (
 
 // InitDb Open()s a sqlite3 in a path.
 func InitDB() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", "chest.db")
+	db, err := sql.Open("sqlite3", "./chest.db")
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,8 @@ func NewStuff(db *sql.DB, title, zip string) error {
 		return err
 	}
 	// TODO: Look up this method
-	id, err := res.LastInsertId()
+	_, err = res.LastInsertId()
+	// Returns id
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,10 @@
 package main
 
-import "github.com/polypmer/sunken/api"
+import (
+	"fmt"
+
+	"github.com/polypmer/sunken/api"
+)
 
 //"github.com/polypmer/sunken/geo"
 
@@ -10,5 +14,6 @@ func main() {
 
 	//addr, _ := geo.Reverse(coordinates)
 	//fmt.Println(addr)
+	fmt.Println("Server takes a second to Load... Why?")
 	api.Serve()
 }
