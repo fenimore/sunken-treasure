@@ -43,12 +43,12 @@ CREATE TABLE IF NOT EXISTS stuffs(
 // NewStuff Creates a new stuff object
 func NewStuff(db *sql.DB, title, zip string) error {
 	stmt, err := db.Prepare("INSERT INTO stuffs(title, zip," +
-		"date)values(?,?,?)")
+		"date, contact)values(?,?,?, ?)")
 	if err != nil {
 		return err
 	}
 	// TODO: Generate Date/time
-	res, err := stmt.Exec(title, zip, "1989-01-01")
+	res, err := stmt.Exec(title, zip, "1989-01-01", "555-555-5555")
 	if err != nil {
 		return err
 	}
