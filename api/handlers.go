@@ -11,6 +11,9 @@ import (
 
 // Index handlers api root
 func Index(w http.ResponseWriter, r *http.Request) {
+	// Go's net/http package tries to guess output
+	// type, but cause I know it (It'll be json)
+	// I'll set it myself.
 	fmt.Fprintln(w, "Index Page")
 }
 
