@@ -50,7 +50,7 @@ var routes = Routes{
 	},
 	Route{
 		"NewStuff",
-		"GET", // Change to post?
+		"POST", // Change to post?
 		"/new",
 		NewStuff,
 	},

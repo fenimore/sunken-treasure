@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS stuffs(
 }
 
 // NewStuff Creates a new stuff object
-func NewStuff(db *sql.DB, title, zip string) error {
-	coord, err := geo.Resolve(zip)
+func NewStuff(db *sql.DB, stuff stuff.Stuff) error {
+	coord, err := geo.Resolve(stuff.Zip)
 	if err != nil {
 		return err
 	}
@@ -60,8 +60,8 @@ func NewStuff(db *sql.DB, title, zip string) error {
 		return err
 	}
 	// TODO: Generate Date/time
-	res, err := stmt.Exec(title, zip, coord[0],
-		coord[1], time.Now(), "555-555-5555")
+	res, err := stmt.Exec(stuff.Title, stuff.Zip, coord[0],
+		coord[1], time.Now(), stuff.Contact)
 	if err != nil {
 		return err
 	}

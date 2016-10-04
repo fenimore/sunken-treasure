@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -53,9 +55,39 @@ func StuffIndex(w http.ResponseWriter, r *http.Request) {
 // NewStuff creates a new stuff
 // TODO: take in JSON data
 func NewStuff(w http.ResponseWriter, r *http.Request) {
-	err := database.NewStuff(db, "Table", "10017")
+	var stuff stuff.Stuff
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576)) // wtf num?
+	// That number protects agains huge json
 	if err != nil {
-		fmt.Fprintf(w, "Error New Stuff %s", err)
+		fmt.Println(err)
 	}
-	fmt.Fprintln(w, "New stuff Posted")
+	err = r.Body.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	// Unmarshal means take the body json thingy
+	// and stick it into one of my fancy structs
+	err = json.Unmarshal(body, &stuff)
+	if err != nil {
+		// IF shit doesn't work out
+		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+		w.WriteHeader(422) // unprocessable data
+		err = json.NewEncoder(w).Encode(err)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	err = database.NewStuff(db, stuff)
+	if err != nil {
+		fmt.Println(err)
+	}
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+	w.WriteHeader(http.StatusCreated)
+	err = json.NewEncoder(w).Encode(stuff)
+	// I send back the created Stuff in json so
+	// that way the client has access to the ID I created
+	if err != nil {
+		fmt.Println(err)
+	}
 }
