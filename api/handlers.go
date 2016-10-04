@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -28,7 +29,12 @@ func ShowStuff(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintln(w, "Error Reading Stuff: %s", err)
 	}
-	fmt.Fprintf(w, "Showing: %s at %s\n", s.Title, s.Zip)
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(s)
+	if err != nil {
+		fmt.Fprintln(w, "Error JSON encoding Stuff: %s", err)
+	}
 }
 
 func StuffIndex(w http.ResponseWriter, r *http.Request) {
@@ -36,10 +42,12 @@ func StuffIndex(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	for _, stuff := range stuffs {
-		fmt.Fprintf(w, "%d Stuff: %s\n  Zip: %s\n", stuff.Id, stuff.Title, stuff.Zip)
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(stuffs)
+	if err != nil {
+		fmt.Fprintln(w, "Error JSON encoding Stuffs: %s", err)
 	}
-	//fmt.Fprintln(w, "Stuff Index")
 }
 
 // NewStuff creates a new stuff

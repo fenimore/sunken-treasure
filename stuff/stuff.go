@@ -14,7 +14,8 @@ type Stuff struct {
 	Contact string    `json:"contact"`
 	Date    time.Time `json:"date"`
 	// User should eventually beome it's own struct
-	User string `json:"user"`
+	User    string `json:"user"`
+	Expired bool   `json:"expired"`
 }
 
 func (s *Stuff) String() string {
