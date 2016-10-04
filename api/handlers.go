@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/polypmer/sunken/database"
@@ -16,8 +17,15 @@ func Index(w http.ResponseWriter, r *http.Request) {
 // ShowStuff displays a stuff by ID
 func ShowStuff(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) // a map of parameters
-	id := vars["id"]
-	fmt.Fprintln(w, "Showing:", id)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		fmt.Println(err)
+	}
+	s, err := database.ReadStuff(db, id)
+	if err != nil {
+		fmt.Fprintln(w, "Error Reading Stuff: %s", err)
+	}
+	fmt.Fprintf(w, "Showing: %s at %s\n", s.Title, s.Zip)
 }
 
 func StuffIndex(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +34,7 @@ func StuffIndex(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	for _, stuff := range stuffs {
-		fmt.Fprintf(w, "Stuff: %s\n  Zip: %s\n", stuff.Title, stuff.Zip)
+		fmt.Fprintf(w, "%d Stuff: %s\n  Zip: %s\n", stuff.Id, stuff.Title, stuff.Zip)
 	}
 	//fmt.Fprintln(w, "Stuff Index")
 }

@@ -78,6 +78,25 @@ func NewStuff(db *sql.DB, title, zip string) error {
 // TODO:
 // UPDATE
 // READ
+// ReadStuff returns a stuff by id.
+func ReadStuff(db *sql.DB, id int) (stuff.Stuff, error) {
+	rows, err := db.Query("select * from stuffs where id = ?", id)
+	s := stuff.Stuff{}
+	if err != nil {
+		return s, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(&s.Id, &s.Title,
+			&s.Zip, &s.Lat, &s.Lon,
+			&s.Contact, &s.Date)
+	}
+	rows.Close()
+	return s, nil
+}
+
+// ReadStuffs returns a slice all stuffs.
+// TODO: make only for active stuffs.
 func ReadStuffs(db *sql.DB) ([]stuff.Stuff, error) {
 	stuffs := make([]stuff.Stuff, 0)
 
