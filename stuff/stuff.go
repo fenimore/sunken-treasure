@@ -13,9 +13,9 @@ type Stuff struct {
 	Lon     float64   `json:"longitude"`
 	Contact string    `json:"contact"`
 	Date    time.Time `json:"date"`
+	Expired bool      `json:"expired"`
 	// User should eventually beome it's own struct
-	User    string `json:"user"`
-	Expired bool   `json:"expired"`
+	// User    string `json:"user"`
 }
 
 func (s *Stuff) String() string {

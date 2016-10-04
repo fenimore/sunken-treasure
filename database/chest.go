@@ -81,7 +81,8 @@ func ReadStuff(db *sql.DB, id int) (stuff.Stuff, error) {
 	for rows.Next() {
 		err = rows.Scan(&s.Id, &s.Title,
 			&s.Zip, &s.Lat, &s.Lon,
-			&s.Contact, &s.Date)
+			&s.Contact, &s.Date,
+			&s.Expired)
 	}
 	rows.Close()
 	return s, nil
@@ -103,7 +104,8 @@ func ReadStuffs(db *sql.DB) ([]stuff.Stuff, error) {
 		s := stuff.Stuff{}
 		err = rows.Scan(&s.Id, &s.Title,
 			&s.Zip, &s.Lat, &s.Lon,
-			&s.Contact, &s.Date, &s.Expired)
+			&s.Contact, &s.Date,
+			&s.Expired)
 		if err != nil {
 			return nil, err
 		}
