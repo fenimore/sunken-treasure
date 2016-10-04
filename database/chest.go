@@ -93,8 +93,8 @@ func ReadStuff(db *sql.DB, id int) (stuff.Stuff, error) {
 	return s, nil
 }
 
-// ReadStuffs returns a slice all stuffs.
-// TODO: make only for active stuffs.
+// ReadStuffs returns a slice all stuffs
+// which are not expired.
 func ReadStuffs(db *sql.DB) ([]stuff.Stuff, error) {
 	stuffs := make([]stuff.Stuff, 0)
 
