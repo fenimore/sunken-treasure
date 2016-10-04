@@ -3,6 +3,7 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/polypmer/sunken/stuff"
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS stuffs(
 	return nil
 }
 
-// NewStuff Creates a new stuff object
+// NewStuff Creates a new stuff object and returns it's id.
 func NewStuff(db *sql.DB, stuff stuff.Stuff) (int64, error) {
 	stmt, err := db.Prepare("INSERT INTO stuffs(title, zip, lat," +
 		"lon, date, contact)values(?,?,?,?,?,?)")
@@ -69,10 +70,11 @@ func NewStuff(db *sql.DB, stuff stuff.Stuff) (int64, error) {
 
 // TODO:
 // UPDATE
-// READ
+
 // ReadStuff returns a stuff by id.
 func ReadStuff(db *sql.DB, id int) (stuff.Stuff, error) {
 	rows, err := db.Query("select * from stuffs where id = ?", id)
+
 	s := stuff.Stuff{}
 	if err != nil {
 		return s, err
@@ -85,6 +87,9 @@ func ReadStuff(db *sql.DB, id int) (stuff.Stuff, error) {
 			&s.Expired)
 	}
 	rows.Close()
+	if s.Id == 0 {
+		return s, errors.New("Id does not exist")
+	}
 	return s, nil
 }
 

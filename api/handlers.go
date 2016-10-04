@@ -31,14 +31,22 @@ func ShowStuff(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	s, err := database.ReadStuff(db, id)
+
 	if err != nil {
-		fmt.Fprintln(w, "Error Reading Stuff: %s", err)
-	}
-	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(w).Encode(s)
-	if err != nil {
-		fmt.Fprintln(w, "Error JSON encoding Stuff: %s", err)
+		// Id not found
+		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+		w.WriteHeader(http.StatusNotFound) // Doesn't exist
+		err = json.NewEncoder(w).Encode(err)
+		if err != nil {
+			fmt.Println(err)
+		}
+	} else {
+		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		err = json.NewEncoder(w).Encode(s)
+		if err != nil {
+			fmt.Fprintln(w, "Error JSON encoding Stuff: %s", err)
+		}
 	}
 }
 
@@ -74,7 +82,7 @@ func NewStuff(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		// IF shit doesn't work out
 		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-		w.WriteHeader(422) // unprocessable data
+		w.WriteHeader(http.StatusUnprocessableEntity) // 422
 		err = json.NewEncoder(w).Encode(err)
 		if err != nil {
 			fmt.Println(err)
