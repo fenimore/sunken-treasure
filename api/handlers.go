@@ -7,9 +7,12 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/polypmer/sunken/database"
+	"github.com/polypmer/sunken/geo"
+	"github.com/polypmer/sunken/stuff"
 )
 
 // Index handlers api root
@@ -77,6 +80,13 @@ func NewStuff(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 	}
+
+	coord, err := geo.Resolve(stuff.Zip)
+	if err != nil {
+		fmt.Println(err)
+	}
+	stuff.Lat, stuff.Lon = coord[0], coord[1]
+	stuff.Date = time.Now()
 
 	err = database.NewStuff(db, stuff)
 	if err != nil {

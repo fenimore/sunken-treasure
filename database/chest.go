@@ -3,12 +3,9 @@ package database
 
 import (
 	"database/sql"
-	"time"
-
-	"github.com/polypmer/sunken/geo"
-	"github.com/polypmer/sunken/stuff"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/polypmer/sunken/stuff"
 )
 
 /* Database Helpers */
@@ -37,7 +34,7 @@ CREATE TABLE IF NOT EXISTS stuffs(
     lon FLOAT NOT NULL,
     contact TEXT NOT NULL,
     date DATETIME,
-    expired BOOLEAN NOT NULL DEFAULT FALSE
+    expired BOOLEAN DEFAULT FALSE
 );
 `
 	_, err := db.Exec(sql_table)
@@ -49,19 +46,14 @@ CREATE TABLE IF NOT EXISTS stuffs(
 
 // NewStuff Creates a new stuff object
 func NewStuff(db *sql.DB, stuff stuff.Stuff) error {
-	coord, err := geo.Resolve(stuff.Zip)
-	if err != nil {
-		return err
-	}
-
 	stmt, err := db.Prepare("INSERT INTO stuffs(title, zip, lat," +
 		"lon, date, contact)values(?,?,?,?,?,?)")
 	if err != nil {
 		return err
 	}
 	// TODO: Generate Date/time
-	res, err := stmt.Exec(stuff.Title, stuff.Zip, coord[0],
-		coord[1], time.Now(), stuff.Contact)
+	res, err := stmt.Exec(stuff.Title, stuff.Zip, stuff.Lat,
+		stuff.Lon, stuff.Date, stuff.Contact)
 	if err != nil {
 		return err
 	}
@@ -111,7 +103,7 @@ func ReadStuffs(db *sql.DB) ([]stuff.Stuff, error) {
 		s := stuff.Stuff{}
 		err = rows.Scan(&s.Id, &s.Title,
 			&s.Zip, &s.Lat, &s.Lon,
-			&s.Contact, &s.Date)
+			&s.Contact, &s.Date, &s.Expired)
 		if err != nil {
 			return nil, err
 		}
