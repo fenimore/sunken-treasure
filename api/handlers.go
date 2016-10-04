@@ -88,10 +88,11 @@ func NewStuff(w http.ResponseWriter, r *http.Request) {
 	stuff.Lat, stuff.Lon = coord[0], coord[1]
 	stuff.Date = time.Now()
 
-	err = database.NewStuff(db, stuff)
+	id, err := database.NewStuff(db, stuff)
 	if err != nil {
 		fmt.Println(err)
 	}
+	stuff.Id = id
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
 	err = json.NewEncoder(w).Encode(stuff)

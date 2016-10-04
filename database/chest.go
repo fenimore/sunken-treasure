@@ -45,26 +45,26 @@ CREATE TABLE IF NOT EXISTS stuffs(
 }
 
 // NewStuff Creates a new stuff object
-func NewStuff(db *sql.DB, stuff stuff.Stuff) error {
+func NewStuff(db *sql.DB, stuff stuff.Stuff) (int64, error) {
 	stmt, err := db.Prepare("INSERT INTO stuffs(title, zip, lat," +
 		"lon, date, contact)values(?,?,?,?,?,?)")
 	if err != nil {
-		return err
+		return -1, err
 	}
 	// TODO: Generate Date/time
 	res, err := stmt.Exec(stuff.Title, stuff.Zip, stuff.Lat,
 		stuff.Lon, stuff.Date, stuff.Contact)
 	if err != nil {
-		return err
+		return -1, err
 	}
 	// TODO: Look up this method
 	// TODO: change to random hash
-	_, err = res.LastInsertId()
+	id, err := res.LastInsertId()
 	// Returns id
 	if err != nil {
-		return err
+		return -1, err
 	}
-	return nil
+	return id, nil
 }
 
 // TODO:
