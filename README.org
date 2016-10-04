@@ -37,10 +37,11 @@ https://github.com/codingsince1985/geo-golang
  - Title
  - Date
 ** TODO API
-- Get
-- Post
-- Put
-- Delete
++ [x] Get
++ [ ] Post
++ [ ] Put
++ [ ] Delete
++ [ ] Put it all in JSON
 *** Framework
 - Gin?
 Everywhere
