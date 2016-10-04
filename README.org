@@ -1,7 +1,11 @@
 * Some sort of backend for free stuff
-+ [1/3] Geolocation
-+ [1/10] Database
-+ [1/10] API
++ [2/3] Geolocation
++ [2/10] Database
++ [2/10] API
+** Some IMmediate todos:
+- Switch to MongoDB
+- Add some sort of authentication
+- Hash for ids
 ** Links
 - http://thenewstack.io/make-a-restful-json-api-go/
 - https://stevenwhite.com/building-a-rest-service-with-golang-3/
