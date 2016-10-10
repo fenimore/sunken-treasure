@@ -141,11 +141,14 @@ func NewToken(w http.ResponseWriter, r *http.Request) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexepected signing method")
 		}
-		return interface{}, nil
+		// Parse takes in the signing Key
+		return signingKey, nil
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		fmt.Println(claims["Issuer"])
+		fmt.Println(claims["iss"])
+	} else {
+		fmt.Println(err)
 	}
 	w.Write([]byte(tokenString))
 }
