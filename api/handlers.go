@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"github.com/polypmer/sunken/database"
 	"github.com/polypmer/sunken/geo"
@@ -109,4 +110,26 @@ func NewStuff(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+}
+
+func Authenticate(w http.ResponseWriter, r *http.Request) {
+
+}
+
+var signingKey = []byte("secret")
+
+func NewToken(w http.ResponseWriter, r *http.Request) {
+	token := jwt.New(jwt.GetSigningMethod("HS256"))
+
+	//token.Claims["AccessToken"] = "foobar"
+	//token.Claims["admin"] = true
+	//token.Claims["name"] = "Fenimore"
+	//token.Claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	tokenString, err := token.SignedString(signingKey)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	w.Write([]byte(tokenString))
 }

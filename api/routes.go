@@ -60,4 +60,16 @@ var routes = Routes{
 		"/all",
 		StuffIndex,
 	},
+	Route{
+		"Authenticate",
+		"POST",
+		"/authenticate",
+		Authenticate,
+	},
+	Route{
+		"NewToken",
+		"GET",
+		"/token",
+		NewToken,
+	},
 }
