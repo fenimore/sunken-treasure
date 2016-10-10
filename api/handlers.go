@@ -119,13 +119,18 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 var signingKey = []byte("secret")
 
 func NewToken(w http.ResponseWriter, r *http.Request) {
-	token := jwt.New(jwt.GetSigningMethod("HS256"))
 
-	//token.Claims["AccessToken"] = "foobar"
-	//token.Claims["admin"] = true
-	//token.Claims["name"] = "Fenimore"
+	//token := jwt.New(jwt.GetSigningMethod("HS256"))
 	//token.Claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
+	// Create the Claims
+	claims := &jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		Issuer:    "web",
+		Id:        "1",
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(signingKey)
 	if err != nil {
 		fmt.Println(err)
