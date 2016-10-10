@@ -136,5 +136,16 @@ func NewToken(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
+	// And Parse:
+	token, err = jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexepected signing method")
+		}
+		return interface{}, nil
+	})
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		fmt.Println(claims["Issuer"])
+	}
 	w.Write([]byte(tokenString))
 }
